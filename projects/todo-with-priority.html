@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Priority Todo</title>
+    <title>Priority Todo List</title>
     <style>
         body { font-family: 'Segoe UI'; margin: 20px; background: #e8f5e9; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
@@ -19,7 +19,7 @@
     <div class="container">
         <h1>⚡ Priority Tasks</h1>
         <div class="input-group">
-            <input type="text" id="todoInput" placeholder="Task...">
+            <input type="text" id="todoInput" placeholder="New task...">
             <select id="prioritySelect">
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -37,8 +37,8 @@
             if (input.value.trim() === '') return;
             todos.push({ text: input.value, priority });
             todos.sort((a, b) => {
-                const order = { high: 0, medium: 1, low: 2 };
-                return order[a.priority] - order[b.priority];
+                const priority_order = { high: 0, medium: 1, low: 2 };
+                return priority_order[a.priority] - priority_order[b.priority];
             });
             input.value = '';
             renderTodos();
@@ -49,7 +49,10 @@
             todos.forEach((todo, idx) => {
                 const item = document.createElement('div');
                 item.className = `todo-item priority-${todo.priority}`;
-                item.innerHTML = `<span>${todo.text}</span><button onclick="deleteTodo(${idx})">Done</button>`;
+                item.innerHTML = `
+                    <span>${todo.text} [${todo.priority.toUpperCase()}]</span>
+                    <button onclick="deleteTodo(${idx})">Done</button>
+                `;
                 list.appendChild(item);
             });
         }
