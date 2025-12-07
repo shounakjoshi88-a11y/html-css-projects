@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <title>Todo with Pomodoro Timer</title>
     <style>
-        body { font-family: 'Segoe UI'; margin: 20px; background: #ffe66d; min-height: 100vh; }
+        body { font-family: 'Segoe UI'; margin: 20px; background: #ffe66d; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
         .timer-display { text-align: center; font-size: 48px; font-weight: bold; color: #ff6b6b; margin: 20px 0; }
         button { padding: 10px 20px; margin: 5px; background: #ff6b6b; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .todo-item { padding: 10px; background: #f5f5f5; margin: 10px 0; border-radius: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🍅 Pomodoro Todo</h1>
+        <h1>🍅 Pomodoro Timer</h1>
         <div class="timer-display" id="timer">25:00</div>
         <div style="text-align: center;">
             <button onclick="startTimer()">Start</button>
             <button onclick="pauseTimer()">Pause</button>
             <button onclick="resetTimer()">Reset</button>
         </div>
-        <div id="todoList"></div>
     </div>
     <script>
         let timeLeft = 25 * 60;
@@ -32,8 +30,7 @@
                 updateDisplay();
                 if (timeLeft === 0) {
                     clearInterval(timerInterval);
-                    timerInterval = null;
-                    alert('Pomodoro complete! Great work! 🎉');
+                    alert('Pomodoro done! 🎉');
                     resetTimer();
                 }
             }, 1000);
@@ -45,7 +42,6 @@
         function resetTimer() {
             timeLeft = 25 * 60;
             updateDisplay();
-            pauseTimer();
         }
         function updateDisplay() {
             const mins = Math.floor(timeLeft / 60);
