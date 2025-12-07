@@ -1,0 +1,66 @@
+# OS junk files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+
+# IDE stuff - everyone uses different editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.tern-port
+
+# Node stuff (for preprocessors and build tools)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Env files - keep secrets secret!
+.env
+.env.local
+.env.*.local
+
+# Testing coverage
+.nyc_output/
+coverage/
+
+# Logs and debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# CSS preprocessor maps
+*.css.map
+*.scss.map
+*.sass.map
+
+# Browser sync stuff
+.browsersync*
+BS_BACKUP/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# History
+.history/
+.vscode-test
