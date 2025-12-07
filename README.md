@@ -86,7 +86,7 @@ Here's what each project is helping me master:
 
 MIT License - feel free to use this for learning!
 
-## 🤝 Want to Contribute?
+## 🤝 Want to Contribute together?
 
 If you've got ideas or improvements, feel free to fork and submit a PR. Always open to learning from others!
 
