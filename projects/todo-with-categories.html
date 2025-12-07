@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo with Categories</title>
+    <style>
+        body { font-family: 'Segoe UI'; margin: 20px; background: #f0f2f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input, select { padding: 10px; border: 2px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .category { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #4CAF50; border-radius: 5px; }
+        .todo-item { padding: 10px; background: white; margin: 10px 0; border-radius: 5px; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📂 Organized Todo List</h1>
+        <div class="input-group">
+            <input type="text" id="todoInput" placeholder="New task...">
+            <select id="categorySelect">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+            </select>
+            <button onclick="addCategoryTodo()">Add</button>
+        </div>
+        <div id="todoContainer"></div>
+    </div>
+    <script>
+        const categories = ['Work', 'Personal', 'Shopping'];
+        const todos = { Work: [], Personal: [], Shopping: [] };
+        function addCategoryTodo() {
+            const input = document.getElementById('todoInput');
+            const category = document.getElementById('categorySelect').value;
+            if (input.value.trim() === '') return;
+            todos[category].push(input.value);
+            input.value = '';
+            renderTodos();
+        }
+        function renderTodos() {
+            const container = document.getElementById('todoContainer');
+            container.innerHTML = '';
+            categories.forEach(cat => {
+                const section = document.createElement('div');
+                section.className = 'category';
+                section.innerHTML = `<h3>${cat}</h3>`;
+                todos[cat].forEach((todo, idx) => {
+                    const item = document.createElement('div');
+                    item.className = 'todo-item';
+                    item.innerHTML = `<span>${todo}</span><button onclick="deleteCategoryTodo('${cat}', ${idx})">✕</button>`;
+                    section.appendChild(item);
+                });
+                container.appendChild(section);
+            });
+        }
+        function deleteCategoryTodo(cat, idx) {
+            todos[cat].splice(idx, 1);
+            renderTodos();
+        }
+    </script>
+</body>
+</html>

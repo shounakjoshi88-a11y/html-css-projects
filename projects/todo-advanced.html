@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Todo App</title>
+    <style>
+        body { font-family: 'Segoe UI'; margin: 20px; background: #f3e5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .filters { display: flex; gap: 10px; margin-bottom: 20px; }
+        .filters button { padding: 8px 15px; border: none; background: #e0e0e0; border-radius: 5px; cursor: pointer; }
+        .filters button.active { background: #9c27b0; color: white; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 20px; background: #9c27b0; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .todo-item { padding: 10px; background: #f5f5f5; margin: 10px 0; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .todo-item.completed { opacity: 0.6; text-decoration: line-through; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Advanced Todo</h1>
+        <div class="filters">
+            <button class="active" onclick="filterTodos('all')">All</button>
+            <button onclick="filterTodos('active')">Active</button>
+            <button onclick="filterTodos('completed')">Completed</button>
+        </div>
+        <div class="input-group">
+            <input type="text" id="todoInput" placeholder="Add a new task...">
+            <button onclick="addTodo()">Add</button>
+        </div>
+        <div id="todoList"></div>
+    </div>
+    <script>
+        let todos = [];
+        let currentFilter = 'all';
+        
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            if (input.value.trim() === '') return;
+            todos.push({ text: input.value, completed: false });
+            input.value = '';
+            renderTodos();
+        }
+        
+        function toggleTodo(item) {
+            item.completed = !item.completed;
+            renderTodos();
+        }
+        
+        function deleteTodo(index) {
+            todos.splice(index, 1);
+            renderTodos();
+        }
+        
+        function filterTodos(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTodos();
+        }
+        
+        function renderTodos() {
+            const list = document.getElementById('todoList');
+            list.innerHTML = '';
+            let filteredTodos = todos;
+            
+            if (currentFilter === 'active') {
+                filteredTodos = todos.filter(todo => !todo.completed);
+            } else if (currentFilter === 'completed') {
+                filteredTodos = todos.filter(todo => todo.completed);
+            }
+            
+            filteredTodos.forEach((todo, idx) => {
+                const item = document.createElement('div');
+                item.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+                item.innerHTML = `
+                    <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodo(todos[${idx}])">
+                    <span>${todo.text}</span>
+                    <button onclick="deleteTodo(${idx})">Delete</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+        
+        document.getElementById('todoInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTodo();
+        });
+    </script>
+</body>
+</html>

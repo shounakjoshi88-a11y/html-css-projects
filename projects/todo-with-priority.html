@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Priority Todo</title>
+    <style>
+        body { font-family: 'Segoe UI'; margin: 20px; background: #e8f5e9; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input, select { padding: 10px; border: 2px solid #ddd; border-radius: 5px; flex: 1; }
+        button { padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .todo-item { padding: 10px; margin: 10px 0; border-radius: 5px; display: flex; justify-content: space-between; }
+        .priority-high { background: #ffcdd2; border-left: 4px solid #f44336; }
+        .priority-medium { background: #fff3cd; border-left: 4px solid #ff9800; }
+        .priority-low { background: #c8e6c9; border-left: 4px solid #4CAF50; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Priority Tasks</h1>
+        <div class="input-group">
+            <input type="text" id="todoInput" placeholder="Task...">
+            <select id="prioritySelect">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button onclick="addPriorityTodo()">Add</button>
+        </div>
+        <div id="todoList"></div>
+    </div>
+    <script>
+        const todos = [];
+        function addPriorityTodo() {
+            const input = document.getElementById('todoInput');
+            const priority = document.getElementById('prioritySelect').value;
+            if (input.value.trim() === '') return;
+            todos.push({ text: input.value, priority });
+            todos.sort((a, b) => {
+                const order = { high: 0, medium: 1, low: 2 };
+                return order[a.priority] - order[b.priority];
+            });
+            input.value = '';
+            renderTodos();
+        }
+        function renderTodos() {
+            const list = document.getElementById('todoList');
+            list.innerHTML = '';
+            todos.forEach((todo, idx) => {
+                const item = document.createElement('div');
+                item.className = `todo-item priority-${todo.priority}`;
+                item.innerHTML = `<span>${todo.text}</span><button onclick="deleteTodo(${idx})">Done</button>`;
+                list.appendChild(item);
+            });
+        }
+        function deleteTodo(idx) {
+            todos.splice(idx, 1);
+            renderTodos();
+        }
+    </script>
+</body>
+</html>
