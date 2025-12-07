@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Comprehensive programming topics, patterns, and algorithms for developers." />
+  <title>Topics — CodeMastery</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <style>
+    :root {
+      --font-body: 'Inter', sans-serif;
+      --font-brand: 'Poppins', sans-serif;
+      --purple: #7c3aed;
+      --gold: #ffd700;
+      --dark-bg: #0f0f18;
+      --light-gray: #e5e7eb;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: #1f2937;
+      background-color: #fff;
+      overflow-x: hidden; /* Prevents horizontal scroll from bg-glow */
+    }
+
+    /* Background Glow Animation */
+    .bg-glow {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+      overflow: hidden; opacity: 0.6; pointer-events: none;
+    }
+    .glow {
+      position: absolute; border-radius: 50%; filter: blur(80px);
+      animation: float 20s infinite ease-in-out;
+    }
+    .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: rgba(139, 92, 246, 0.15); }
+    .glow-2 { bottom: 10%; right: -10%; width: 40vw; height: 40vw; background: rgba(255, 215, 0, 0.1); animation-delay: -5s; }
+    .glow-3 { top: 40%; left: 40%; width: 30vw; height: 30vw; background: rgba(236, 72, 153, 0.1); animation-delay: -10s; }
+    
+    @keyframes float { 
+      0%, 100% { transform: translate(0,0); } 
+      50% { transform: translate(30px, 50px); } 
+    }
+
+    /* Navbar Overrides */
+    .navbar {
+      padding: 16px 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .navbar-brand {
+      font-family: var(--font-brand);
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: #111;
+    }
+    .logo-bracket { color: var(--gold); }
+    .nav-link {
+      font-weight: 600;
+      color: #4b5563 !important;
+      margin: 0 8px;
+      transition: color 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--purple) !important; }
+
+    /* Hero Section */
+    .topics-hero { padding: 80px 0 40px; }
+    .hero-label {
+      color: var(--purple);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-brand);
+      font-weight: 800;
+      font-size: 3rem;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: #6b7280;
+      max-width: 600px;
+    }
+
+    /* Quick Nav (Sticky) */
+    .quicknav {
+      border-top: 1px solid var(--light-gray);
+      border-bottom: 1px solid var(--light-gray);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      z-index: 1020;
+    }
+    .qbtn {
+      padding: 6px 14px;
+      border-radius: 50px;
+      border: 1px solid var(--light-gray);
+      background: #f9fafb;
+      font-weight: 700;
+      color: #374151;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .qbtn:hover {
+      border-color: var(--gold);
+      color: var(--purple);
+      background: #fff;
+    }
+
+    /* Section Bands */
+    .band { padding: 60px 0; }
+    .band.alt { background: linear-gradient(180deg, rgba(255,215,0,.06), rgba(139,92,246,.05)); }
+    .band.dark {
+      background: radial-gradient(circle at 20% 0%, #1b1b29, #0f0f18);
+      color: #f3f4f6;
+    }
+    .band h2 {
+      font-family: var(--font-brand);
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .lede {
+      font-size: 1.1rem;
+      color: #4b5563;
+      margin-bottom: 32px;
+    }
+    .band.dark .lede { color: rgba(255,255,255,0.7); }
+
+    /* Card / Section Box */
+    .section-box {
+      background: #fff;
+      border: 1px solid var(--light-gray);
+      border-radius: 12px;
+      padding: 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s;
+    }
+    .section-box:hover { transform: translateY(-3px); border-color: var(--purple); }
+    
+    .band.dark .section-box {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .section-box h3 { font-weight: 800; font-size: 1.25rem; margin-bottom: 10px; }
+    .section-box ul { padding-left: 1.2rem; margin-bottom: 0; }
+    .section-box li { margin-bottom: 6px; }
+
+    /* Code Snippet Style - Optimized */
+    pre.code {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow-x: auto;
+      white-space: pre; /* Preserves formatting */
+    }
+    pre.code code {
+      font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+      font-size: 0.85rem;
+    }
+
+    /* Footer */
+    .footer { background: #0f0f18; color: #fff; padding: 60px 0 20px; }
+    .footer-title { font-weight: 800; margin-bottom: 20px; font-size: 1.25rem; }
+    .footer a { color: #9ca3af; text-decoration: none; transition: color 0.2s; }
+    .footer a:hover { color: var(--gold); }
+    .badge-small {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg-glow" aria-hidden="true">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+  </div>
+
+  <!-- Bootstrap Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <span class="logo-bracket">{</span>Code<span class="logo-bracket">}</span>
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="learning-paths.html">Paths</a></li>
+          <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li>
+          <li class="nav-item"><a class="nav-link active" href="topics.html">Topics</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="topics-hero">
+    <div class="container">
+      <div class="hero-label">Practice</div>
+      <h1 class="section-title">Topics & Challenges</h1>
+      <p class="section-subtitle">Comprehensive patterns, pitfalls, complexity analysis, and real-world mapping.</p>
+    </div>
+  </section>
+
+  <!-- Quick Nav (Optimized with aria-label) -->
+  <nav class="quicknav sticky-top" aria-label="Topics navigation">
+    <div class="container">
+      <div class="d-flex flex-wrap gap-2 py-3">
+        <a class="qbtn" href="#arrays">Arrays</a>
+        <a class="qbtn" href="#recursion">Recursion</a>
+        <a class="qbtn" href="#graphs">Graphs</a>
+        <a class="qbtn" href="#dp">DP</a>
+        <a class="qbtn" href="#search">Search</a>
+        <a class="qbtn" href="#math">Math</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Arrays & Strings -->
+  <section class="band alt" id="arrays">
+    <div class="container">
+      <h2>Arrays & Strings</h2>
+      <p class="lede">Master scanning, in-place mods, and constant space. Fast wins in interviews & real-world streaming.</p>
+      
+      <div class="row g-4">
+        <!-- Column 1 -->
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Two Pointers</h3>
+            <p><strong>When:</strong> Sorted arrays, palindrome, cycle detect.</p>
+            <ul>
+              <li>Opposite ends: left=0, right=n-1</li>
+              <li>Fast/Slow: one reads, one writes</li>
+              <li>Floyd cycle detect</li>
+            </ul>
+<pre class="code"><code>let w=1;
+for(let r=1; r&lt;nums.length; r++)
+  if(nums[r]!==nums[r-1])
+    nums[w++]=nums[r];
+return w;</code></pre>
+          </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Sliding Window</h3>
+            <p><strong>When:</strong> Contiguous subarrays, max/min.</p>
+            <ul>
+              <li>Fixed window: move together</li>
+              <li>Variable: expand right, shrink left</li>
+              <li>Encode invariant in ok()</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Prefix/Suffix</h3>
+            <ul>
+              <li>Range sum in O(1)</li>
+              <li>Product except self</li>
+              <li>Max left/right precompute</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Hashing</h3>
+            <ul>
+              <li>Two Sum (target - x)</li>
+              <li>Anagrams (sort or freq)</li>
+              <li>Consecutive seq (set)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Kadane (Max Subarray)</h3>
+<pre class="code"><code>let max=nums[0], curr=nums[0];
+for(let i=1; i&lt;nums.length; i++){
+  curr=Math.max(nums[i], curr+nums[i]);
+  max=Math.max(max, curr);
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Complexity</h3>
+            <ul>
+              <li>Two pointers: O(n), O(1)</li>
+              <li>Sliding: O(n), O(k)</li>
+              <li>Prefix: O(n)+O(1)</li>
+              <li>Hash: O(n), O(n)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recursion & Backtracking -->
+  <section class="band" id="recursion">
+    <div class="container">
+      <h2>Recursion & Backtracking</h2>
+      <p class="lede">Systematically explore decision trees. Optimization, constraint satisfaction, and AI search.</p>
+      
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Recipe</h3>
+            <ol>
+              <li>Define state</li>
+              <li>Base case (record solution)</li>
+              <li>Generate choices</li>
+              <li>Prune invalid</li>
+              <li>Recurse & undo</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Template</h3>
+<pre class="code"><code>function backtrack(state){
+  if (complete(state)){
+    solutions.push(copy(state));
+    return;
+  }
+  for (const c of choices){
+    if (!valid(c)) continue;
+    make(state, c);
+    backtrack(state);
+    undo(state, c);
+  }
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Subsets (2^n)</h3>
+            <ul>
+              <li>Include or exclude each element</li>
+              <li>With duplicates: sort, skip dups</li>
+              <li>O(n·2^n) time</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>N-Queens</h3>
+            <ul>
+              <li>Row-by-row placement</li>
+              <li>Track cols, diag1, diag2</li>
+              <li>O(N!) worst case</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Pitfalls</h3>
+            <ul>
+              <li>Forget undo state</li>
+              <li>Shallow copy (use [...])</li>
+              <li>Dup handling: sort+skip</li>
+              <li>Off-by-one termination</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Real-World</h3>
+            <ul>
+              <li>Sudoku, SAT solvers</li>
+              <li>Chess minimax</li>
+              <li>Traveling salesman</li>
+              <li>ML feature selection</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trees & Graphs -->
+  <section class="band alt" id="graphs">
+    <div class="container">
+      <h2>Trees & Graphs</h2>
+      <p class="lede">Traversal, connectivity, shortest paths. Feeds, maps, schedulers, game AI.</p>
+      
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>BFS</h3>
+            <ul>
+              <li>Shortest path (unweighted)</li>
+              <li>Multi-source expansions</li>
+              <li>O(V+E) time</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>DFS</h3>
+            <ul>
+              <li>Preorder, inorder, postorder</li>
+              <li>Cycle detection (colors)</li>
+              <li>Connected components</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Dijkstra</h3>
+            <ul>
+              <li>Non-negative weights</li>
+              <li>Min-heap priority queue</li>
+              <li>O((V+E)logV)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Union-Find</h3>
+            <ul>
+              <li>Connectivity queries</li>
+              <li>Path compression + union by rank</li>
+              <li>Near O(α(n)) amortized</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Real-World</h3>
+            <ul>
+              <li>Google Maps routing</li>
+              <li>Social graph clustering</li>
+              <li>Dependency resolution</li>
+              <li>Network flow analysis</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Complexity</h3>
+            <ul>
+              <li>BFS/DFS: O(V+E)</li>
+              <li>Dijkstra: O((V+E)logV)</li>
+              <li>MST: O(ElogE)</li>
+              <li>Union-Find: O(α(n))</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dynamic Programming -->
+  <section class="band" id="dp">
+    <div class="container">
+      <h2>Dynamic Programming</h2>
+      <p class="lede">Convert recursion to tabulation. State, transition, base case, fill order.</p>
+      
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>1D Knapsack</h3>
+<pre class="code"><code>for(let w=W; w>=item.w; w--)
+  dp[w]=Math.max(dp[w],
+    dp[w-item.w]+item.val);</code></pre>
+            <p class="mt-2 text-muted small"><strong>Key:</strong> Reverse loop for 0/1.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>LIS (n log n)</h3>
+<pre class="code"><code>const tails=[];
+for(const x of nums){
+  let i=lowerBound(tails,x);
+  if(i===tails.length) tails.push(x);
+  else tails[i]=x;
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Common Patterns</h3>
+            <ul>
+              <li>Coin Change (Unbounded)</li>
+              <li>Edit Distance (Strings)</li>
+              <li>Matrix Paths (Grid)</li>
+              <li>Partition Subset</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Pitfalls</h3>
+            <ul>
+              <li>Wrong loop direction</li>
+              <li>Overflow with sentinel values</li>
+              <li>Missing base init</li>
+              <li>State not minimal</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Real-World</h3>
+            <ul>
+              <li>Sequence alignment (DNA)</li>
+              <li>Inventory mgmt (knapsack)</li>
+              <li>ML training</li>
+              <li>Diff algorithms</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Complexity</h3>
+            <ul>
+              <li>1D Knapsack: O(nW)</li>
+              <li>LIS: O(nlogn)</li>
+              <li>Edit Dist: O(mn)</li>
+              <li>Coin: O(n·target)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sorting & Searching -->
+  <section class="band alt" id="search">
+    <div class="container">
+      <h2>Sorting & Searching</h2>
+      <p class="lede">Binary search templates, selection, and sorting variations under pressure.</p>
+      
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Binary Search Lower</h3>
+<pre class="code"><code>let lo=0, hi=n;
+while(lo&lt;hi){
+  const mid=(lo+hi)&gt;&gt;1;
+  if(pred(mid)) hi=mid;
+  else lo=mid+1;
+}
+return lo;</code></pre>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Quickselect</h3>
+            <ul>
+              <li>Kth largest average O(n)</li>
+              <li>Pivot partition + recurse</li>
+              <li>Worst O(n²) rare</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Heaps (Top-K)</h3>
+            <ul>
+              <li>Min-heap size k</li>
+              <li>O(nlogk) time</li>
+              <li>E.g., kth largest stream</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Sorting Algos</h3>
+            <ul>
+              <li>Merge: O(nlogn) stable</li>
+              <li>Quick: O(nlogn) avg</li>
+              <li>Heap: O(nlogn) guaranteed</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Pitfalls</h3>
+            <ul>
+              <li>Mid overflow: lo+(hi-lo)/2</li>
+              <li>Infinite loop: ensure pred changes</li>
+              <li>Off-by-one errors</li>
+              <li>Duplicates handling</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Real-World</h3>
+            <ul>
+              <li>DB indexes (binary search)</li>
+              <li>Load balancing</li>
+              <li>Top products ranking</li>
+              <li>Median finding</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Math & Bit Manipulation -->
+  <section class="band" id="math">
+    <div class="container">
+      <h2>Math & Bit Manipulation</h2>
+      <p class="lede">Small tricks, big wins. Precomputation, modular arithmetic, bit masks.</p>
+      
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Sieve (Primes)</h3>
+<pre class="code"><code>const sieve=(n)=>{
+  const p=Array(n+1).fill(true);
+  for(let i=2; i*i&lt;=n; i++)
+    if(p[i]) for(let j=i*i; j&lt;=n; j+=i)
+      p[j]=false;
+  return p;
+};</code></pre>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Bit Tricks</h3>
+            <ul>
+              <li>a ^ a = 0, a ^ 0 = a</li>
+              <li>Cancel duplicates</li>
+              <li>Bit Masks for DP (2^n)</li>
+              <li>Parity checks</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="section-box">
+            <h3>Mod Arithmetic</h3>
+            <ul>
+              <li>Normalize: (x%m+m)%m</li>
+              <li>Fast Power O(log e)</li>
+              <li>GCD (Euclidean)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <div class="footer-title h4">{Code}</div>
+          <p class="text-white-50">Master programming through real projects. Clean. Distraction-free. For builders.</p>
+          <div class="d-flex gap-3">
+            <a href="#">GitHub</a>
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
+          </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-4">
+          <h5 class="footer-title">Product</h5>
+          <ul class="list-unstyled d-flex flex-column gap-2">
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="learning-paths.html">Paths</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="topics.html">Challenges</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-4">
+          <h5 class="footer-title">Company</h5>
+          <ul class="list-unstyled d-flex flex-column gap-2">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <h5 class="footer-title">Stay Updated</h5>
+          <p class="text-white-50">Latest courses sent to your inbox.</p>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email address">
+            <button class="btn btn-primary" type="button">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-top border-secondary mt-5 pt-4 d-flex justify-content-between flex-wrap gap-3">
+        <p class="text-white-50 small mb-0">© 2025 CodeMastery. All rights reserved.</p>
+        <div>
+          <span class="badge-small">Ad-Free</span>
+          <span class="badge-small">Open Source</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
